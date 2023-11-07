@@ -1,0 +1,49 @@
+﻿@model Project_03.Models.PersonModel
+
+<div>
+    <partial name="_AddPerson" />
+</div>
+@if (TempData["Message"] != null)
+{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+    <script type="text/javascript">
+        // Initialize Toastr options
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "positionClass": "toast-top-right", // Adjust the position as needed
+            "newestOnTop": true,
+            "progressBar": true,
+        };
+
+        // Show the Toastr notification
+        toastr.success('@TempData["Message"]');
+    </script>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#submitBothForms").click(function () {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SubmitPerson", "Home")',
+                data: $("#personForm").serialize(),
+                success: function (response) {
+                    alert(response);
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SubmitAddress", "Home")',
+                data: $("#addressForm").serialize(),
+                success: function (response) {
+                    alert(response);
+                }
+            });
+        });
+    });
+</script>
